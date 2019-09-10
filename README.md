@@ -1,4 +1,4 @@
-### Foam hackathon Demo
+### 3box Chats on Foam Food Map
 
 <img src="https://im2.ezgif.com/tmp/ezgif-2-589b0941121c.gif" width="600" height="500" />
 
