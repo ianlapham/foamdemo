@@ -1,0 +1,22 @@
+$main-color: #612be5;
+$nav-height: 80px;
+$pad-m: 20px;
+
+* {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+p {
+  font-size: 18px;
+}
+
+body {
+  min-width: 900px;
+}
+
+#deckgl-wrapper {
+  height: 100vh;
+  width: 100% !important;
+  position: relative;
+}
