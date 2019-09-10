@@ -2,6 +2,9 @@
   "name": "dca-ui",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.14.2"
+  },
   "dependencies": {
     "3box": "^1.10.8",
     "bootstrap": "^4.2.1",
