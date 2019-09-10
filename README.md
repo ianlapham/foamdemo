@@ -1,14 +1,12 @@
 ### Foam hackathon Demo
 
-> By Ian Lapham
-
 <img src="https://im2.ezgif.com/tmp/ezgif-2-589b0941121c.gif" width="600" height="500" />
 
 Decentralized chat threads on Foam map. Click on a restaurant location and see what people have said using 3box.js message threads and food data from Foam. 
 
-Note - users must have Metamask to use. 
-
 #### Available Scripts
+
+Users must have Metamask to use. 
 
 In the project directory, run:
 
@@ -17,9 +15,9 @@ In the project directory, run:
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 #### Tools
+Foam api - https://f-o-a-m.github.io/foam.developer/examples/foam_map_api.html \
+3box.js - https://github.com/3box/3box-js\
 
--3box.js
--Foam api 
 
 #### License
 
