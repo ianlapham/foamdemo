@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { getProvider, getDCA } from "../services/web3Service"
+import { getProvider } from "../services/web3Service"
 import { Web3Ctx } from "../contexts/Web3Context"
 
 class Web3Container extends React.Component {
@@ -17,14 +17,7 @@ class Web3Container extends React.Component {
   async componentWillMount() {
     await this.checkAccounStatus()
     await this.subscribeToAccountChange(this.checkAccounStatus)
-    try {
-      let dca = await getDCA(this.state.web3)
-      this.setState({
-        dca: dca
-      })
-    } catch (e) {
-      console.log("couldnt load dca contract instance")
-    }
+
     this.setState({
       isLoading: false
     })
