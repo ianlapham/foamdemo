@@ -2,7 +2,7 @@
 
 > By Ian Lapham
 
-https://im2.ezgif.com/tmp/ezgif-2-589b0941121c.gif
+![Farmers Market Finder Demo](demo/demo.gif)
 
 Decentralized chat threads on Foam map. Click on a restaurant location and see what people have said using 3box.js message threads and food data from Foam. 
 
