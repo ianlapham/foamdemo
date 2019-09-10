@@ -40,7 +40,7 @@ export default function Home(props) {
       setBox(box)
     }
     getBox()
-  }, [props.account, window.ethereum])
+  }, [props.account])
 
   useEffect(() => {
     async function getSpace() {
@@ -66,7 +66,7 @@ export default function Home(props) {
       }
     }
     getThread()
-  }, [space, threadName])
+  }, [space, spaceName, threadName])
 
   async function fetchPosts() {
     if (thread) {
@@ -77,7 +77,7 @@ export default function Home(props) {
 
   useEffect(() => {
     fetchPosts()
-  }, [thread])
+  }, [thread]) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function addPost(message) {
     if (thread) {
@@ -153,7 +153,7 @@ export default function Home(props) {
 
   useEffect(() => {
     fetchPoints(100, 0)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   function fetchPoints(limit, offset) {
     fetch(
