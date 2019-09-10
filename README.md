@@ -1,8 +1,12 @@
-# Ethereum Dollar Cost Averaging
+### Foam hackathon Demo
 
 > By Ian Lapham
 
-## Available Scripts
+Decentralized chat threads on Foam map. Click on a restaurant location and see what people have said using 3box.js message threads and food data from Foam. 
+
+Note - users must have Metamask to use. 
+
+#### Available Scripts
 
 In the project directory, run:
 
@@ -10,11 +14,12 @@ In the project directory, run:
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Tools
+#### Tools
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+-3box.js
+-Foam api 
 
-## License
+#### License
 
 `MIT License`
 
