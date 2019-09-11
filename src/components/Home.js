@@ -105,6 +105,7 @@ export default function Home(props) {
   async function addPost(message) {
     if (thread) {
       await thread.post(message.data.text)
+      fetchPosts()
     }
   }
 
@@ -127,7 +128,7 @@ export default function Home(props) {
     return [coords["lon"], coords["lat"], 0]
   }
 
-  let data = []
+  const [data, setData] = useState([])
 
   const [statelayers, setStateLayers] = useState([])
 
@@ -177,10 +178,11 @@ export default function Home(props) {
       .then(result => result.json())
       .then(json => {
         // console.log(json)
+        let newData = data
         json.forEach(function(record) {
           record.tags.forEach(function(tag) {
             if (tag === "Food") {
-              data.push({
+              newData.push({
                 name: record.name,
                 tag,
                 coords: getPointCoords(record.geohash)
@@ -188,6 +190,7 @@ export default function Home(props) {
             }
           })
         })
+        setData(newData)
 
         offset += json.length
         if (json.length === limit) {
@@ -207,9 +210,9 @@ export default function Home(props) {
     bearing: 0
   }
 
-  function setData() {
-    data = []
-  }
+  // function setData() {
+  //   data = []
+  // }
 
   return (
     <Container>
@@ -219,7 +222,7 @@ export default function Home(props) {
           controller={true}
           initialViewState={initialViewState}
         >
-          {setData()}
+          {/* {setData()} */}
           <StaticMap
             mapboxApiAccessToken={
               "pk.eyJ1IjoiaWFubGFwaGFtIiwiYSI6ImNrMGI5ajB1YTBzMGkzbnE4b2xscW01ZmQifQ.uTLKJ-M_-GXcYgIIucCphw"
