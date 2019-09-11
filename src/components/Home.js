@@ -105,7 +105,6 @@ export default function Home(props) {
   async function addPost(message) {
     if (thread) {
       await thread.post(message.data.text)
-      fetchPosts()
     }
   }
 
