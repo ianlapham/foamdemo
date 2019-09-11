@@ -17,6 +17,10 @@ This application is intended to be used as a demo. It shows that with minimal de
 - UX : obviously one thread per restaurant would get pretty crowded pretty quick. We need better UX on the message threads to display recent information, most valuable comments, and profile information 
 - Performance : need load performance improvements for websocket fetches and live chat feeds 
 
+### Known Bugs and Requests 
+
+Better aync thread fetching. Memory usage is high - could improve connections to 3box and 3box.js Space storage. Better clicking on restaurant names. 
+
 #### Available Scripts
 
 Users must have Metamask to use. 
