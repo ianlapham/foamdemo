@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import Geohash from "latlon-geohash"
 import { TextLayer } from "deck.gl"
@@ -54,15 +54,14 @@ export default function Home(props) {
   }, [box, spaceName])
 
   useEffect(() => {
+    clearTimeout(t)
     async function getThread() {
       if (space) {
-        console.log(space.DID)
         let newThread = await space.joinThread(threadName + spaceName, {
           firstModerator:
             "did:3:bafyreicllmr3u7yekpvpandm7leizuxmorwgfylhhd3qp3yhctz5hsmvca",
           members: false
         })
-
         setThread(newThread)
         setChatOpen(true)
       }
@@ -70,54 +69,45 @@ export default function Home(props) {
     getThread()
   }, [space, spaceName, thread, threadName]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const [t, setT] = useState()
+
   async function fetchPosts() {
-    console.log("fetching")
     if (thread && space) {
-      const newPosts = await thread.getPosts()
-      let newFormatted = Object.keys(newPosts).map((key, i) => {
-        let auth = "them"
-        if (newPosts[key].author === space.DID) {
-          auth = "me"
-        }
-        return {
-          author: auth,
-          type: "text",
-          data: { text: newPosts[key].message }
-        }
-      })
-      setPosts(newFormatted)
+      const newPosts = await Box.getThread(
+        spaceName,
+        threadName + spaceName,
+        "did:3:bafyreicllmr3u7yekpvpandm7leizuxmorwgfylhhd3qp3yhctz5hsmvca",
+        false
+      )
+      setPosts(newPosts)
     }
+    setT(setTimeout(fetchPosts, 1000))
   }
 
   useEffect(() => {
-    if (thread) {
-      thread.onUpdate(fetchPosts)
-    }
     fetchPosts()
   }, [thread]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  function getMessages() {
+    return Object.keys(posts).map((key, i) => {
+      let auth = "them"
+      if (posts[key].author === space.DID) {
+        auth = "me"
+      }
+      return {
+        author: auth,
+        type: "text",
+        data: { text: posts[key].message }
+      }
+    })
+  }
 
   async function addPost(message) {
     if (thread) {
       await thread.post(message.data.text)
+      fetchPosts()
     }
   }
-
-  // const getMessages = useCallback(() => {
-  //   if (posts && space) {
-  //     return Object.keys(posts).map((key, i) => {
-  //       let auth = "them"
-  //       if (posts[key].author === space.DID) {
-  //         auth = "me"
-  //       }
-  //       return {
-  //         author: auth,
-  //         type: "text",
-  //         data: { text: posts[key].message }
-  //       }
-  //     })
-  //   }
-  //   return []
-  // }, [posts]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Map
   const BOUNDING_BOX = [[-73.94, 40.674], [-74.051, 40.73]]
@@ -144,7 +134,6 @@ export default function Home(props) {
 
   function handleClick(info, event) {
     let name = info.object.name
-    console.log(name)
     setThreadName(name)
   }
 
@@ -225,7 +214,6 @@ export default function Home(props) {
 
   return (
     <Container>
-      {console.log("rendering")}
       <MapBox>
         <DeckGL
           layers={statelayers}
@@ -251,7 +239,7 @@ export default function Home(props) {
             "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png"
         }}
         onMessageWasSent={addPost}
-        messageList={posts}
+        messageList={getMessages()}
         showEmoji={false}
       />
     </Container>

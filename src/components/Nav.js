@@ -6,8 +6,12 @@ const NavWrapper = styled(Row)`
   height: 80px;
   width: calc(100vw-1em);
   color: black;
+  display: flex;
+  flex-=direction: row;
+  justify-content: space-between;
   background: white;
   padding-left: 3em;
+  padding-right: 3em;
   font-weight: 400;
   position: sticky;
   z-index: 9999;
@@ -17,9 +21,21 @@ const NavWrapper = styled(Row)`
   top: 0;
 `
 
+const SmallText = styled.p`
+  font-size: 12px;
+  color: grey;
+  border: 1px solid grey;
+  border-radius: 4px;
+  padding: 8px;
+`
+
 const Nav = () => (
   <NavWrapper>
     <h3>Foam Threads - Decentralized Restaurant Reviews</h3>
+    <SmallText>
+      Pre-alpha version. Make sure to approve all MetaMask signature request.
+      Made by @ianlapham{" "}
+    </SmallText>
   </NavWrapper>
 )
 
