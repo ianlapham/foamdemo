@@ -1,8 +1,8 @@
 ### 3box Chats on Foam Food Map
 
-Decentralized chat threads on Foam map for NYC restaurants. Click on a restaurant location and see what people have said using 3box.js message threads and food data from Foam.  \ 
+Decentralized chat threads on Foam map for NYC restaurants. Click on a restaurant location and see what people have said using 3box.js message threads and food data from Foam.  
 
-Pre-alpha version - please report bugs and make feature requests. \
+Pre-alpha version - please report bugs and make feature requests. 
 
 ### Motivation 
 
