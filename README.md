@@ -1,7 +1,5 @@
 ### 3box Chats on Foam Food Map
 
-<img src="https://im2.ezgif.com/tmp/ezgif-2-589b0941121c.gif" width="600" height="500" />
-
 Decentralized chat threads on Foam map. Click on a restaurant location and see what people have said using 3box.js message threads and food data from Foam. 
 
 #### Available Scripts
