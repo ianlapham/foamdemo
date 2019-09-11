@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import styled from "styled-components"
 import Geohash from "latlon-geohash"
 import { TextLayer } from "deck.gl"
 import { StaticMap } from "react-map-gl"
 import { Launcher } from "react-chat-window"
 import DeckGL from "@deck.gl/react"
+import { func } from "prop-types"
 const Box = require("3box")
 
 const Container = styled.div`
@@ -22,13 +23,13 @@ const MapBox = styled.div`
 export default function Home(props) {
   // const [input, setInput] = useState("")
 
-  const [posts, setPosts] = useState()
+  const [posts, setPosts] = useState([])
 
   const [chatOpen, setChatOpen] = useState(false)
 
   const [box, setBox] = useState()
 
-  const [spaceName] = useState("foamspacehacking6")
+  const [spaceName] = useState("foamSpaceForDemo")
   const [space, setSpace] = useState()
 
   const [threadName, setThreadName] = useState("Foam General ")
@@ -56,52 +57,67 @@ export default function Home(props) {
     async function getThread() {
       if (space) {
         console.log(space.DID)
-        let thread = await space.joinThread(threadName + spaceName, {
+        let newThread = await space.joinThread(threadName + spaceName, {
           firstModerator:
             "did:3:bafyreicllmr3u7yekpvpandm7leizuxmorwgfylhhd3qp3yhctz5hsmvca",
           members: false
         })
-        setThread(thread)
+
+        setThread(newThread)
         setChatOpen(true)
       }
     }
     getThread()
-  }, [space, spaceName, threadName])
+  }, [space, spaceName, thread, threadName]) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function fetchPosts() {
-    if (thread) {
-      const posts = await thread.getPosts()
-      setPosts(posts)
+    console.log("fetching")
+    if (thread && space) {
+      const newPosts = await thread.getPosts()
+      let newFormatted = Object.keys(newPosts).map((key, i) => {
+        let auth = "them"
+        if (newPosts[key].author === space.DID) {
+          auth = "me"
+        }
+        return {
+          author: auth,
+          type: "text",
+          data: { text: newPosts[key].message }
+        }
+      })
+      setPosts(newFormatted)
     }
   }
 
   useEffect(() => {
+    if (thread) {
+      thread.onUpdate(fetchPosts)
+    }
     fetchPosts()
   }, [thread]) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function addPost(message) {
     if (thread) {
       await thread.post(message.data.text)
-      fetchPosts()
     }
   }
 
-  function getMessages() {
-    if (posts) {
-      return Object.keys(posts).map((key, i) => {
-        let auth = "them"
-        if (posts[key].author === space.DID) {
-          auth = "me"
-        }
-        return {
-          author: auth,
-          type: "text",
-          data: { text: posts[key].message }
-        }
-      })
-    }
-    return []
-  }
+  // const getMessages = useCallback(() => {
+  //   if (posts && space) {
+  //     return Object.keys(posts).map((key, i) => {
+  //       let auth = "them"
+  //       if (posts[key].author === space.DID) {
+  //         auth = "me"
+  //       }
+  //       return {
+  //         author: auth,
+  //         type: "text",
+  //         data: { text: posts[key].message }
+  //       }
+  //     })
+  //   }
+  //   return []
+  // }, [posts]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Map
   const BOUNDING_BOX = [[-73.94, 40.674], [-74.051, 40.73]]
@@ -203,14 +219,20 @@ export default function Home(props) {
     bearing: 0
   }
 
+  function setData() {
+    data = []
+  }
+
   return (
     <Container>
+      {console.log("rendering")}
       <MapBox>
         <DeckGL
           layers={statelayers}
           controller={true}
           initialViewState={initialViewState}
         >
+          {setData()}
           <StaticMap
             mapboxApiAccessToken={
               "pk.eyJ1IjoiaWFubGFwaGFtIiwiYSI6ImNrMGI5ajB1YTBzMGkzbnE4b2xscW01ZmQifQ.uTLKJ-M_-GXcYgIIucCphw"
@@ -229,8 +251,8 @@ export default function Home(props) {
             "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png"
         }}
         onMessageWasSent={addPost}
-        messageList={getMessages()}
-        showEmoji
+        messageList={posts}
+        showEmoji={false}
       />
     </Container>
   )
